@@ -154,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="diffuse.fs" />
+    <None Include="lambert.fs" />
+    <None Include="lambert.vs" />
     <None Include="phong.fs" />
     <None Include="shader.vs" />
     <None Include="shader.fs" />

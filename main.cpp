@@ -85,6 +85,7 @@ int main()
     Shader specShader("shader.vs", "specular.fs");
     Shader phongShader("shader.vs", "phong.fs");
     Shader textureShader("texture.vs", "texture.fs");
+    Shader lambertShader("lambert.vs", "lambert.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -192,6 +193,9 @@ int main()
     textureShader.use();
     textureShader.setInt("tex", 1);
 
+    lambertShader.use();
+    lambertShader.setInt("tex", 1);
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
@@ -213,7 +217,7 @@ int main()
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, tex);
 
-        shader = textureShader;
+        shader = lambertShader;
         // be sure to activate shader when setting uniforms/drawing objects
         shader.use();
         shader.setInt("shininess", 32);

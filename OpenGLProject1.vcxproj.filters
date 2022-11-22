@@ -49,5 +49,11 @@
     <None Include="texture.fs">
       <Filter>Pliki źródłowe</Filter>
     </None>
+    <None Include="lambert.vs">
+      <Filter>Pliki źródłowe</Filter>
+    </None>
+    <None Include="lambert.fs">
+      <Filter>Pliki źródłowe</Filter>
+    </None>
   </ItemGroup>
 </Project>
