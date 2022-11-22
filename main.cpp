@@ -217,36 +217,75 @@ int main()
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, tex);
 
-        shader = lambertShader;
         // be sure to activate shader when setting uniforms/drawing objects
-        shader.use();
-        shader.setInt("shininess", 32);
-        shader.setVec3("viewPos", camera.Position);
-        shader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-        shader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
-        shader.setVec3("lightPos", lightPos);
+        diffShader.use();
+        diffShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        diffShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        diffShader.setVec3("lightPos", lightPos);
 
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = camera.GetViewMatrix();
-        shader.setMat4("projection", projection);
-        shader.setMat4("view", view);
+        diffShader.setMat4("projection", projection);
+        diffShader.setMat4("view", view);
 
         // world transformation
         glm::mat4 model = glm::mat4(1.0f);
-        shader.setMat4("model", model);
+        diffShader.setMat4("model", model);
 
         // render object
         glBindVertexArray(objectVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
+        specShader.use();
+        specShader.setVec3("viewPos", camera.Position);
+        specShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        specShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        specShader.setVec3("lightPos", lightPos);
+        specShader.setMat4("projection", projection);
+        specShader.setMat4("view", view);
+        model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
+        specShader.setMat4("model", model);
 
-        
-       
+        glBindVertexArray(objectVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        phongShader.use();
+        phongShader.setInt("shininess", 32);
+        phongShader.setVec3("viewPos", camera.Position);
+        phongShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        phongShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        phongShader.setVec3("lightPos", lightPos);
+        phongShader.setMat4("projection", projection);
+        phongShader.setMat4("view", view);
+        model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
+        phongShader.setMat4("model", model);
+
+        glBindVertexArray(objectVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        textureShader.use();
+        textureShader.setMat4("projection", projection);
+        textureShader.setMat4("view", view);
+        model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
+        textureShader.setMat4("model", model);
+
+        glBindVertexArray(objectVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        lambertShader.use();
+        lambertShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+        lambertShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lambertShader.setVec3("lightPos", lightPos);
+        lambertShader.setMat4("projection", projection);
+        lambertShader.setMat4("view", view);
+        model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
+        lambertShader.setMat4("model", model);
+
+        glBindVertexArray(objectVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
-
-        // also draw the lamp object
         lightObjectShader.use();
         lightObjectShader.setMat4("projection", projection);
         lightObjectShader.setMat4("view", view);
@@ -286,17 +325,17 @@ void processInput(GLFWwindow* window)
 
     if (moveCameraOrLight == 1) {
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            lightPos = lightPos - glm::vec3(0.f, 0.f, 1.f) * 0.01f;
+            lightPos = lightPos - glm::vec3(0.f, 0.f, 1.f) * 0.1f;
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-            lightPos = lightPos + glm::vec3(0.f, 0.f, 1.f) * 0.01f;
+            lightPos = lightPos + glm::vec3(0.f, 0.f, 1.f) * 0.1f;
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-            lightPos = lightPos - glm::vec3(1.f, 0.f, 0.f) * 0.01f;
+            lightPos = lightPos - glm::vec3(1.f, 0.f, 0.f) * 0.1f;
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-            lightPos = lightPos + glm::vec3(1.f, 0.f, 0.f) * 0.01f;
+            lightPos = lightPos + glm::vec3(1.f, 0.f, 0.f) * 0.1f;
         if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-            lightPos = lightPos - glm::vec3(0.f, 1.f, 0.f) * 0.01f;
+            lightPos = lightPos - glm::vec3(0.f, 1.f, 0.f) * 0.1f;
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-            lightPos = lightPos + glm::vec3(0.f, 1.f, 0.f) * 0.01f;
+            lightPos = lightPos + glm::vec3(0.f, 1.f, 0.f) * 0.1f;
     }
     else
     {
