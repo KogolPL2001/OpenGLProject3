@@ -43,5 +43,11 @@
     <None Include="phong.fs">
       <Filter>Pliki źródłowe</Filter>
     </None>
+    <None Include="texture.vs">
+      <Filter>Pliki źródłowe</Filter>
+    </None>
+    <None Include="texture.fs">
+      <Filter>Pliki źródłowe</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -158,6 +158,8 @@
     <None Include="shader.vs" />
     <None Include="shader.fs" />
     <None Include="specular.fs" />
+    <None Include="texture.fs" />
+    <None Include="texture.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
